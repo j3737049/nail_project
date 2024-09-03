@@ -148,11 +148,16 @@ const availableHours = computed(() => {
       -moz-appearance:none; /* Firefox */
       -webkit-appearance:none; /* Safari and Chrome */
       appearance:none;
+      height: 4rem;
       &[name="appointmentDate"] {
         background-position: right calc(3rem) center;
         padding: 1rem 1rem;
         line-height: 1rem;
       }
+      
+    }
+    textarea.form-control {
+      height: 10rem;
     }
     .error-feedback {
       color: red;
