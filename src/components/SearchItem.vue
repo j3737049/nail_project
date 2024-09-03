@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { ref ,computed } from 'vue'
 
+const getAssetsFile = (url:string) => {
+    return new URL(`../assets/${url}.jpg`, import.meta.url).href
+}
+
 const categories = ['全部', '環球', '哈利波特', '馬力歐', '魷魚遊戲', '三麗鷗', '迪士尼', '公主'];
 const items = ref([
-    { id: 1, src: 'LINE_ALBUM_240731_2',categories:["環球","哈利波特"]},
-    { id: 2, src: 'LINE_ALBUM_240731_3',categories: ["環球","馬力歐"]},
-    { id: 3, src: 'LINE_ALBUM_240731_4',categories:["魷魚遊戲"] },
-    { id: 4, src: 'LINE_ALBUM_240731_5',categories:["三麗鷗"] },
-    { id: 5, src: 'LINE_ALBUM_240731_6',categories:["環球","馬力歐"] },
-    { id: 6, src: 'LINE_ALBUM_240731_12',categories:["迪士尼","公主","冰雪奇緣"] },
-    { id: 7, src: 'LINE_ALBUM_240731_13',categories:["迪士尼","公主","長髮公主"] },
-    { id: 8, src: 'LINE_ALBUM_240731_14',categories:["迪士尼","公主","小美人魚"] },
-    { id: 9, src: 'LINE_ALBUM_240731_15',categories:["迪士尼"]},
+    { id: 1, src: getAssetsFile('LINE_ALBUM_240731_2'),categories:["環球","哈利波特"]},
+    { id: 2, src: getAssetsFile('LINE_ALBUM_240731_3'),categories: ["環球","馬力歐"]},
+    { id: 3, src: getAssetsFile('LINE_ALBUM_240731_4'),categories:["魷魚遊戲"] },
+    { id: 4, src: getAssetsFile('LINE_ALBUM_240731_5'),categories:["三麗鷗"] },
+    { id: 5, src: getAssetsFile('LINE_ALBUM_240731_6'),categories:["環球","馬力歐"] },
+    { id: 6, src: getAssetsFile('LINE_ALBUM_240731_12'),categories:["迪士尼","公主","冰雪奇緣"] },
+    { id: 7, src: getAssetsFile('LINE_ALBUM_240731_13'),categories:["迪士尼","公主","長髮公主"] },
+    { id: 8, src: getAssetsFile('LINE_ALBUM_240731_14'),categories:["迪士尼","公主","小美人魚"] },
+    { id: 9, src: getAssetsFile('LINE_ALBUM_240731_15'),categories:["迪士尼"]},
 ])
 
 // 查詢輸入
@@ -61,6 +65,7 @@ const selectCategory = (category: string) => {
     }
     console.log(selectedCategories)
 }
+
 </script>
 
 <template>
@@ -90,7 +95,7 @@ const selectCategory = (category: string) => {
         <div>
             <ul>
                 <li v-for="item in searchResults" :key="item.id">
-                    <img :src="'./assets/'+item.src+'.jpg'">
+                    <img :src="item.src">
                 </li>
             </ul>
         </div>
