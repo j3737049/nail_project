@@ -90,7 +90,7 @@ const selectCategory = (category: string) => {
         <div>
             <ul>
                 <li v-for="item in searchResults" :key="item.id">
-                    <img :src="'/src/assets/'+item.src+'.jpg'">
+                    <img :src="'./assets/'+item.src+'.jpg'">
                 </li>
             </ul>
         </div>
