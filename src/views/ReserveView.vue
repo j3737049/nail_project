@@ -114,7 +114,7 @@ const onSubmit = (values: any) => {
     }
 
   }
-  alert(message)
+  window.alert(message)
   
 };
 const availableHours = computed(() => {
