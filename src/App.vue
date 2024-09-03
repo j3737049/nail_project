@@ -38,7 +38,7 @@ import { RouterLink, RouterView } from 'vue-router'
   </footer>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 header {
   line-height: 1.5;
   display: flex;
@@ -74,9 +74,9 @@ nav a {
     color: var(--color-text);
     font-weight: bold;
     background-color: hsla(187, 100%, 37%, 0.2);
-    &:hover {
-      background-color: transparent;
-    }
+    // &:hover {
+    //   background-color: transparent;
+    // }
   }
 }
 

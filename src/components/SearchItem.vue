@@ -102,7 +102,7 @@ const selectCategory = (category: string) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .center{
     display: flex;
     flex-direction: column;
