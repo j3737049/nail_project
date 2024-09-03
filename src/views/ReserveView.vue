@@ -150,7 +150,8 @@ const availableHours = computed(() => {
       appearance:none;
       &[name="appointmentDate"] {
         background-position: right calc(3rem) center;
-        padding: 0 1rem;
+        padding: 1rem 1rem;
+        line-height: 1rem;
       }
     }
     .error-feedback {
