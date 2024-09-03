@@ -33,10 +33,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import SearchItem from '@/components/SearchItem.vue';
+import SearchItem from '../components/SearchItem.vue';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -50,7 +50,7 @@ const modules = [EffectCoverflow, Pagination];
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .swiper {
     /* width: 800px; */
     .swiper-slide {

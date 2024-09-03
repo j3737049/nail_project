@@ -9,5 +9,5 @@
 // import TheWelcome from '../components/TheWelcome.vue'
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 </style>

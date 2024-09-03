@@ -64,7 +64,6 @@ import { Form as ValidationForm, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 // import dayjs from 'dayjs';
 import { defineComponent, computed } from 'vue';
-import alert from '@arco-design/web-vue/es/alert';
 
 let maxDate = new Date();
 maxDate.setDate(maxDate.getDate() + 40);  // 設置最大日期為40天後
@@ -115,7 +114,7 @@ const onSubmit = (values: any) => {
     }
 
   }
-  new alert(message)
+  alert(message)
   
 };
 const availableHours = computed(() => {
@@ -127,7 +126,7 @@ const availableHours = computed(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .main {
   width: 800px;
   margin: 2rem auto;
