@@ -15,7 +15,7 @@
 
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node","vite/client","pinia-plugin-Persistedstate"],
+    "types": ["node","vite/client","pinia-plugin-persistedstate"],
     "lib": ["es6", "dom"]
   }
   
