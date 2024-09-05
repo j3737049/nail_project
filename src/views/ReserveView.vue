@@ -135,4 +135,9 @@ const availableHours = computed(() => {
   padding: 2rem 0.5rem;
 }
 
+@media (max-width: 1024px) {
+  .main {
+    width: 80%;
+  }
+}
 </style>

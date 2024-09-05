@@ -68,4 +68,9 @@ const onSubmit = (values: any) => {
   border-radius: 15px;
   padding: 2rem 0.5rem;
 }
+@media (max-width: 1024px) {
+  .main {
+    width: 80%;
+  }
+}
 </style>

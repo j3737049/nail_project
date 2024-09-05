@@ -107,7 +107,6 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 @media (max-width: 1024px) {
   .main {
-    width: 80%;
     .form-group {
       input {
         height: 2rem;
