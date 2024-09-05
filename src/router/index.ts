@@ -28,7 +28,8 @@ const router = createRouter({
       name: 'reserve',
       component: () => import('../views/ReserveView.vue'),
       meta:{
-        title:'Reserve'
+        title:'Reserve',
+        // requireAuth:true
       }
     },
     {
@@ -45,6 +46,22 @@ const router = createRouter({
       component: () => import('../views/ContactView.vue'),
       meta:{
         title:'Contact'
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+      meta:{
+        title:'Login'
+      }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/RegisterView.vue'),
+      meta:{
+        title:'Register'
       }
     }
   ]

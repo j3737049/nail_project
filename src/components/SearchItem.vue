@@ -1,22 +1,17 @@
+
 <script setup lang="ts">
 import { ref ,computed } from 'vue'
+import { useCounterStore } from '../stores/counter'
 
-const getAssetsFile = (url:string) => {
-    return new URL(`../assets/${url}.jpg`, import.meta.url).href
-}
+const counter = useCounterStore();
+// const getAssetsFile = (url:string) => {
+//     return new URL(`../assets/${url}.jpg`, import.meta.url).href
+// }
 
-const categories = ['全部', '環球', '哈利波特', '馬力歐', '魷魚遊戲', '三麗鷗', '迪士尼', '公主'];
-const items = ref([
-    { id: 1, src: getAssetsFile('LINE_ALBUM_240731_2'),categories:["環球","哈利波特"]},
-    { id: 2, src: getAssetsFile('LINE_ALBUM_240731_3'),categories: ["環球","馬力歐"]},
-    { id: 3, src: getAssetsFile('LINE_ALBUM_240731_4'),categories:["魷魚遊戲"] },
-    { id: 4, src: getAssetsFile('LINE_ALBUM_240731_5'),categories:["三麗鷗"] },
-    { id: 5, src: getAssetsFile('LINE_ALBUM_240731_6'),categories:["環球","馬力歐"] },
-    { id: 6, src: getAssetsFile('LINE_ALBUM_240731_12'),categories:["迪士尼","公主","冰雪奇緣"] },
-    { id: 7, src: getAssetsFile('LINE_ALBUM_240731_13'),categories:["迪士尼","公主","長髮公主"] },
-    { id: 8, src: getAssetsFile('LINE_ALBUM_240731_14'),categories:["迪士尼","公主","小美人魚"] },
-    { id: 9, src: getAssetsFile('LINE_ALBUM_240731_15'),categories:["迪士尼"]},
-])
+const categories = counter.nail_categories;
+const items = counter.nail_items;
+
+console.log("items"+items)
 
 // 查詢輸入
 const searchQuery = ref('')
@@ -26,16 +21,16 @@ const searchResults = computed(() => {
     console.log(searchQuery.value);
     if (searchQuery.value) {
 
-        return items.value.filter((item: { categories: any[]; }) => {
+        return items.filter((item: { categories: any[]; }) => {
             const matchesSearch = item.categories.includes(searchQuery.value.toLowerCase())
-            const matchesCategory = selectedCategories.value.includes('全部') || 
+            const matchesCategory = selectedCategories.value.includes('all') || 
             item.categories.some((cat: any) => selectedCategories.value.includes(cat));
             
             return matchesSearch && matchesCategory
         })
     } else {
-        return items.value.filter((item: { categories: any[]; }) => {
-            const matchesCategory = selectedCategories.value.includes('全部') || 
+        return items.filter((item: { categories: any[]; }) => {
+            const matchesCategory = selectedCategories.value.includes('all') || 
                 item.categories.some((cat: any) => selectedCategories.value.includes(cat));
             
             return matchesCategory
@@ -43,11 +38,11 @@ const searchResults = computed(() => {
     }
 })
 
-const selectedCategories = ref(['全部']);
+const selectedCategories = ref(['all']);
 // 查詢方法
 const selectCategory = (category: string) => {
-    if (category === '全部') {
-    selectedCategories.value = ['全部']
+    if (category === 'all') {
+    selectedCategories.value = ['all']
     } else {
     const index = selectedCategories.value.indexOf(category)
     if (index > -1) {
@@ -55,16 +50,28 @@ const selectCategory = (category: string) => {
     } else {
         selectedCategories.value.push(category)
     }
-    const allIndex = selectedCategories.value.indexOf('全部')
+    const allIndex = selectedCategories.value.indexOf('all')
     if (allIndex > -1) {
         selectedCategories.value.splice(allIndex, 1)
     }
     if (selectedCategories.value.length === 0) {
-        selectedCategories.value = ['全部']
+        selectedCategories.value = ['all']
     }
     }
     console.log(selectedCategories)
 }
+
+
+//最愛功能
+const changeStatue = (id:number) => {
+    counter.changeFav(id.toString());
+    console.log('Component sees value as:', counter.fav);
+}
+
+const selectFav = computed( ()=>{
+    console.log("change:"+counter.fav);
+    return counter.fav
+})
 
 </script>
 
@@ -78,28 +85,24 @@ const selectCategory = (category: string) => {
             <h2>熱門推薦:</h2>
             <span 
                 v-for="category in categories" 
-                :key="category"
-                @click="selectCategory(category)"
-                :class="{ active: selectedCategories.includes(category) }"
+                :key="category.id"
+                @click="selectCategory(category.id)"
+                :class="{ active: selectedCategories.includes(category.id) }"
             >
-                {{ category }}
+                {{ category.name }}
             </span>
-            <!-- <span>全部</span>
-            <span>迪士尼</span>
-            <span>公主</span>
-            <span>馬力歐</span>
-            <span>哈利波特</span>
-            <span>環球影城</span>
-            <span>魷魚遊戲</span> -->
         </div>
         <div>
             <ul>
                 <li v-for="item in searchResults" :key="item.id">
+                    <span @click="changeStatue(item.id)"
+                :class="{ fav: selectFav.includes(item.id.toString()) }" ></span>
                     <img :src="item.src">
                 </li>
             </ul>
         </div>
     </div>
+    
 </template>
 
 <style lang="scss" scoped>
@@ -130,27 +133,17 @@ const selectCategory = (category: string) => {
             width: 100%;
             border: 1px solid rgb(50, 122, 151);
             border-radius: 5px;
-            /* color: rgb(50, 122, 151); */
         }
     }
     .typeChange{
-        /* background-color: hsla(187, 100%, 37%, 0.2); */
-        /* border: 1px solid hsla(187, 100%, 37%, 0.2); */
-        /* border-radius: 30px; */
-        /* margin-top: 1rem; */
         display: flex;
         align-items: center;
-        /* overflow: hidden; */
-        /* justify-content: space-around;*/
         span{
             padding: 0.5rem 0.5rem;
             line-height: 20px;
             cursor: pointer;
             margin: 0 0.5rem;
-            /* border-bottom: 1px solid; */
             &:hover, &.active{
-                /* background-color: hsla(187, 100%, 37%, 0.2); */
-                /* background-color: #fff; */
                 border-bottom: 1px solid;
             }
         }
@@ -164,8 +157,38 @@ const selectCategory = (category: string) => {
         gap: 10px;
         li {
             list-style: none;
+            position: relative;
             img {
                 width: 260px;
+            }
+            span{
+                position: absolute;
+                width: 40px;
+                height: 40px;
+                right: 0;
+                border-radius: 50%;
+                cursor: pointer;
+                &:before,&:after{
+                    content:'';
+                    position: absolute;
+                    top: 10px;
+                    width: 20px;
+                    height: 30px;
+                    background-color: gray;
+                    border-radius: 50px 50px 0 0;
+                }
+                &:before{
+                    right: 22px;
+                    transform: rotate(-45deg);
+                }
+                &:after{
+                    right: 15px;
+                    transform: rotate(45deg);
+                }
+                &.fav:before,&.fav:after{
+                    background-color: red;
+
+                }
             }
         }
     }

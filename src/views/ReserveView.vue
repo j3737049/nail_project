@@ -133,67 +133,6 @@ const availableHours = computed(() => {
   border: 1px solid rgb(50, 122, 151);
   border-radius: 15px;
   padding: 2rem 0.5rem;
-  form{
-    display: contents;
-   .form-group {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-    margin-bottom: 1.5rem;
-    .form-control {
-      color: rgb(50, 122, 151);
-      border: 1px solid rgb(50, 122, 151);
-      border-radius: 4px;
-      padding: 1rem;
-      -moz-appearance:none; /* Firefox */
-      -webkit-appearance:none; /* Safari and Chrome */
-      appearance:none;
-      height: 3rem;
-      &[name="appointmentDate"] {
-        background-position: right calc(3rem) center;
-        padding: 1rem 1rem;
-        line-height: 1rem;
-      }
-      &[name="appointmentTime"]{
-        height: 4rem;
-      }
-      
-    }
-    textarea.form-control {
-      height: 10rem;
-    }
-    .error-feedback {
-      color: red;
-    }
-    button {
-      height: 3rem;
-      background-color: rgb(50, 122, 151);
-      border: 0;
-      color: #fff;
-      border-radius: 5px;
-    }
-  }
-  }
-  
-}
-@media (max-width: 768px){
-  .main{
-    .form-group{
-      input{
-        height: 3rem;
-      }
-    }
-  }
-}
-@media (max-width: 1024px){
-  .main{
-    width: 80%;
-    .form-group{
-      input{
-        height: 2rem;
-      }
-    }
-  }
 }
 
 </style>
