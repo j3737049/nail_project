@@ -304,11 +304,9 @@ footer {
 
 
 @media (max-width: 1024px){
-  /* footer{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  } */
+  .dropdown-toggle{
+    text-align: right;
+    padding: 1rem 0.5rem;
+  }
 }
 </style>
