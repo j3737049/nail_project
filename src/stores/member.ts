@@ -6,7 +6,7 @@ export const useCounterStore = defineStore(
   'member',
   () => {
 
-    const password_list = [{account:"ching",password:"aa1234"}];
+    const password_list = [{account:"admin",password:"aa1234"}];
     const member = ref({
       account: "",
       password: ""
