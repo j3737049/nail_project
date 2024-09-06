@@ -1,6 +1,63 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { ref, defineEmits, computed } from 'vue'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { useCounterStore } from './stores/member'
 // import HelloWorld from './components/HelloWorld.vue'
+
+const router = useRouter();
+const counter = useCounterStore();
+
+// let lists = ref([
+//   { value: 1, label: '會員登入', url: '/login' },
+//   { value: 2, label: '會員註冊', url: '/register' }
+// ])
+
+// if(counter.isLogin){
+//   lists = ref([
+//     { value: 1, label: '會員登出', url: '/logout' }
+//   ])
+// }
+// const isAuthenticated = computed(() => counter.isLogin);
+
+const lists = computed(()=>{
+  if(counter.isLogin){
+    return [
+      // { value: 1, label: '預約紀錄', url: '/appointment' },
+      { value: 2, label: '會員登出', url: '/logout' }
+    ]
+  }else{
+    return [
+      { value: 1, label: '會員登入', url: '/login' },
+      { value: 2, label: '會員註冊', url: '/register' }
+    ]
+  }
+  
+})
+
+// const emit = defineEmits(['select'])
+
+const isOpen = ref(false)
+const selectedOption = ref(null)
+
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value
+}
+
+const selectOption = (option: any) => {
+  selectedOption.value = option.label
+  isOpen.value = false
+  // emit('select', option)
+  if(option.url != "/logout"){
+    router.push(option.url);
+  }else{
+    const result = counter.logout();
+    if(result){
+      alert('登出成功');
+      router.push('/');
+    }
+  }
+
+}
 </script>
 
 <template>
@@ -17,14 +74,28 @@ import { RouterLink, RouterView } from 'vue-router'
         <!-- <RouterLink to="/contact">客服中心</RouterLink> -->
       </nav>
     </div>
-    <div class="memberarea hide">
+    <div class="memberarea">
       <div>
-        <RouterLink to="/login" >
-        <svg class="member-svg qk-text--nav_menu_icon qk-vert--mid" xmlns="http://www.w3.org/2000/svg" height="24" width="25.8" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="6" r="5" stroke="currentColor" stroke-width="2"></circle>
-          <path d="M17.607 22.9957H6.393C5.54025 23.04 4.70467 22.7442 4.06888 22.1729C3.43309 21.6017 3.0488 20.8015 3 19.9471V19.1174C3 14.6077 7.032 11 12 11C16.968 11 21 14.6077 21 19.1174V19.9471C20.9512 20.8015 20.5669 21.6017 19.9311 22.1729C19.2953 22.7442 18.4598 23.04 17.607 22.9957V22.9957Z" stroke="currentColor" stroke-width="2" stroke-miterlimit="10"></path>
-        </svg>
-      </RouterLink>
+        <!-- <RouterLink to="/" >
+          <svg class="member-svg qk-text--nav_menu_icon qk-vert--mid" xmlns="http://www.w3.org/2000/svg" height="24" width="25.8" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="6" r="5" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M17.607 22.9957H6.393C5.54025 23.04 4.70467 22.7442 4.06888 22.1729C3.43309 21.6017 3.0488 20.8015 3 19.9471V19.1174C3 14.6077 7.032 11 12 11C16.968 11 21 14.6077 21 19.1174V19.9471C20.9512 20.8015 20.5669 21.6017 19.9311 22.1729C19.2953 22.7442 18.4598 23.04 17.607 22.9957V22.9957Z" stroke="currentColor" stroke-width="2" stroke-miterlimit="10"></path>
+          </svg>
+        </RouterLink> -->
+        <div class="dropdown">
+          <div v-if="isOpen" @click="toggleDropdown" class="dropdown-backgroud"></div>
+          <button @click="toggleDropdown" class="dropdown-toggle">
+            <svg class="member-svg qk-text--nav_menu_icon qk-vert--mid" xmlns="http://www.w3.org/2000/svg" height="24" width="25.8" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="6" r="5" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M17.607 22.9957H6.393C5.54025 23.04 4.70467 22.7442 4.06888 22.1729C3.43309 21.6017 3.0488 20.8015 3 19.9471V19.1174C3 14.6077 7.032 11 12 11C16.968 11 21 14.6077 21 19.1174V19.9471C20.9512 20.8015 20.5669 21.6017 19.9311 22.1729C19.2953 22.7442 18.4598 23.04 17.607 22.9957V22.9957Z" stroke="currentColor" stroke-width="2" stroke-miterlimit="10"></path>
+            </svg>
+          </button>
+          <ul v-if="isOpen" class="dropdown-list">
+            <li v-for="option in lists" :key="option.value" @click="selectOption(option)">
+              {{ option.label }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>
@@ -50,6 +121,9 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 .hide{
   display: none!important;
+}
+.margin-top4{
+  margin-top: 4rem;
 }
 
 
@@ -92,6 +166,7 @@ import { RouterLink, RouterView } from 'vue-router'
         border: 0;
         color: #fff;
         border-radius: 5px;
+        font-weight: bold;
       }
     }
   }
@@ -102,6 +177,9 @@ import { RouterLink, RouterView } from 'vue-router'
       input {
         height: 3rem;
       }
+    }
+    .margin-top4{
+      margin-top: 1rem;
     }
   }
 }
@@ -176,6 +254,54 @@ footer {
   text-align: center;
   background-color: hsla(187, 100%, 37%, 0.2);
 }
+
+.dropdown {
+  position: relative;
+  width: 7rem;
+  
+  .dropdown-backgroud {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    cursor: auto;
+  }
+
+  .dropdown-toggle {
+    width: 100%;
+    padding: 1rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .dropdown-list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    li {
+      padding: 10px;
+      cursor: pointer;
+      &:hover {
+        background-color: #f8f9fa;
+      }
+    }
+  }
+}
+
+
+
 
 @media (max-width: 1024px){
   /* footer{

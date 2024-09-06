@@ -8,6 +8,8 @@ import router from './router'
 import ArcoVue from '@arco-design/web-vue';
 import '@arco-design/web-vue/dist/arco.css';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import Cookies from 'js-cookie'
+
 
 
 // 引入 Bootstrap 和 BootstrapVue3 的 CSS 文件
@@ -19,7 +21,7 @@ pinia.use(piniaPluginPersistedstate)
 
 router.beforeEach((to, from, next)=>{
     if(to.meta.requireAuth){
-        const counter = localStorage.getItem('counter') || '{}'
+        const counter = localStorage.getItem('member') || '{}';
         if(JSON.parse(counter).isLogin){
             next();
         }else{

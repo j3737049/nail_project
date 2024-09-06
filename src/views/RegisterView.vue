@@ -1,64 +1,110 @@
-<template>
-  <div class="main">
-    <ValidationForm @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }">
-      <h1>登入</h1>
-      <div class="form-group">
-        <label for="account">帳號</label>
-        <Field
-          name="account"
-          type="text"
-          class="form-control"
-          :class="{ 'is-invalid': errors.account }"
-        />
-        <ErrorMessage name="account" class="error-feedback" />
-      </div>
-      <div class="form-group">
-        <label for="password">密碼</label>
-        <Field
-          name="password"
-          type="password"
-          class="form-control"
-          :class="{ 'is-invalid': errors.password }"
-        />
-        <span class="icon hide"
-          ><svg
-            viewBox="0 0 20 14"
-            focusable="false"
-            class="chakra-icon icon-password-visibility emotion-css-cache-blpcuq"
-          >
-            <path
-              d="M19.5088 1.2089C19.611 1.25074 19.6601 1.36775 19.6163 1.46914C19.1289 2.59656 18.4454 3.62068 17.6082 4.49961L18.9568 5.99878L17.8417 7.00198L16.4985 5.50888C15.5938 6.22036 14.5674 6.7865 13.4555 7.17185L14.1946 9.2714L12.8053 9.72941L12.0394 7.55372C11.3797 7.68288 10.6977 7.75059 9.99978 7.75059C9.32819 7.75059 8.67131 7.68789 8.0348 7.56806L7.31157 9.73778L5.88854 9.26343L6.58145 7.18472C5.46686 6.80317 4.43758 6.24022 3.52977 5.53138L2.03027 7.03088L0.969613 5.97021L2.41524 4.52459C1.56718 3.64011 0.875232 2.60726 0.383259 1.46914C0.339431 1.36775 0.388517 1.25074 0.490744 1.2089L1.50879 0.79228C1.61102 0.750444 1.72764 0.799611 1.7718 0.900853C3.14365 4.04555 6.30943 6.25059 9.99978 6.25059C13.6901 6.25059 16.8559 4.04555 18.2277 0.900854C18.2719 0.799611 18.3885 0.750444 18.4907 0.79228L19.5088 1.2089Z"
-              fill="currentColor"
-            ></path></svg
-        ></span>
-        <ErrorMessage name="password" class="error-feedback" />
-      </div>
 
-      <div class="form-group">
-        <button type="submit">提交</button>
-      </div>
-    </ValidationForm>
-  </div>
-</template>
 
 <script setup lang="ts">
 import { Form as ValidationForm, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup'
 import { useCounterStore } from '../stores/member'
+import { useRouter } from 'vue-router';
 
-const counter = useCounterStore()
+const counter = useCounterStore();
+
+const router = useRouter();
 
 const schema = yup.object({
   account: yup.string().required('請輸入帳號'),
-  password: yup.string().required('請輸入密碼')
+  password: yup.string().required('請輸入密碼'),
+  phone: yup.string()
+    // .matches(/^[0-9]{10}$/, '請輸入有效的10位電話號碼')
+    .test('is-empty-or-valid', '電話號碼必須是10位數字', (value) => {
+      // 如果沒有輸入，返回 true（有效）
+      if (!value || value.trim() === '') {
+        return true;
+      }
+      // 如果有輸入，必須是10位數字
+      return /^\d{10}$/.test(value);
+    }),
+  email: yup.string()
+    .email('請輸入有效的電子郵件地址')
 })
+
+const onPhoneInput = (event: any, handleChange: any) => {
+  const newValue = event.target.value.replace(/\D/g, '');
+  handleChange(newValue);
+  console.log(event.target.value);
+};
 
 // 在這裡處理表單提交邏輯
 const onSubmit = (values: any) => {
-  console.log(values)
-  counter.memberLogin(values)
+  console.log(values);
+  const result = counter.regitser(values);
+  
+  if(result){
+    alert("註冊成功");
+    router.replace('/');
+  }else{
+    alert("帳號重複");
+  }
 }
+
 </script>
+<template>
+  <div class="main">
+    <ValidationForm @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }">
+      <h1>註冊</h1>
+      <div class="form-group">
+        <label for="account">*帳號</label>
+        <Field
+          name="account"
+          type="text"
+          class="form-control"
+          :class="{ 'is-invalid': errors.account }"
+           placeholder="請輸入帳號"
+        />
+        <ErrorMessage name="account" class="error-feedback" />
+      </div>
+      <div class="form-group">
+        <label for="password">*密碼</label>
+        <Field
+          name="password"
+          type="password"
+          class="form-control"
+          :class="{ 'is-invalid': errors.password }"
+           placeholder="請輸入密碼"
+        />
+        <ErrorMessage name="password" class="error-feedback" />
+      </div>
+      <div class="form-group">
+        <label for="phone">電話電話</label >
+        <!-- <input type="text" placeholder="請輸入您的連絡電話" v-on:keydown="checkDown" maxlength="10" > -->
+      <!-- <Field name="phone" type="tel" class="form-control" :class="{ 'is-invalid': errors.phone }" @input="onPhoneInput" /> -->
+
+        <Field name="phone" v-slot="{ field, errors, handleChange }">
+          <input v-bind="field" type="tel" class="form-control" placeholder="請輸入電話號碼" 
+          @input="(event) => onPhoneInput(event, handleChange)" />
+          <span v-if="errors.length" class="error-feedback">{{ errors[0] }}</span>
+        </Field>
+      <!-- <ErrorMessage name="phone" class="error-feedback" /> -->
+      </div>
+      <div class="form-group">
+        <label for="email">電子郵件</label >
+        <!-- <input type="text" placeholder="請輸入您的電子郵件" > -->
+      <Field name="email" type="email" class="form-control" placeholder="請輸入電子郵件" :class="{ 'is-invalid': errors.email }" />
+      <ErrorMessage name="email" class="error-feedback" />
+      </div>
+
+      <div class="form-group">
+        <button type="submit">提交</button>
+      </div>
+      
+      <h1 class="margin-top4">已有帳號?</h1>
+      <div class="form-group">
+        <span>
+          <RouterLink to="/login" class="loginBTN">點擊登入</RouterLink>
+        </span>
+      </div>
+    </ValidationForm>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .main {
@@ -67,6 +113,19 @@ const onSubmit = (values: any) => {
   border: 1px solid rgb(50, 122, 151);
   border-radius: 15px;
   padding: 2rem 0.5rem;
+  
+  .loginBTN {
+    text-align: center;
+    display: block;
+    height: 3rem;
+    line-height: 3rem;
+    background-color: rgb(50, 122, 151);
+    border: 0;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+  }
 }
 @media (max-width: 1024px) {
   .main {

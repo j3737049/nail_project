@@ -37,6 +37,13 @@
       <div class="form-group">
         <button type="submit">提交</button>
       </div>
+
+      <h1 class="margin-top4">還不是會員?</h1>
+      <div class="form-group">
+        <span>
+          <RouterLink to="/register" class="registerBTN">點擊註冊</RouterLink>
+        </span>
+      </div>
     </ValidationForm>
   </div>
 </template>
@@ -45,6 +52,10 @@
 import { Form as ValidationForm, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup'
 import { useCounterStore } from '../stores/member'
+import { useRouter } from 'vue-router';
+
+
+const router = useRouter();
 
 const counter = useCounterStore()
 
@@ -56,7 +67,13 @@ const schema = yup.object({
 // 在這裡處理表單提交邏輯
 const onSubmit = (values: any) => {
   console.log(values)
-  counter.memberLogin(values)
+  const result = counter.memberLogin(values);
+  if(result){
+    alert("登入成功");
+    router.replace('/');
+  }else{
+    alert("帳號或密碼錯誤");
+  }
 }
 </script>
 
@@ -67,46 +84,17 @@ const onSubmit = (values: any) => {
   border: 1px solid rgb(50, 122, 151);
   border-radius: 15px;
   padding: 2rem 0.5rem;
-  form {
-    display: contents;
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      width: 75%;
-      margin-bottom: 1.5rem;
-      position: relative;
-      .form-control {
-        color: rgb(50, 122, 151);
-        border: 1px solid rgb(50, 122, 151);
-        border-radius: 4px;
-        padding: 1rem;
-        -moz-appearance: none; /* Firefox */
-        -webkit-appearance: none; /* Safari and Chrome */
-        appearance: none;
-        height: 3rem;
-        &[name='appointmentDate'] {
-          background-position: right calc(3rem) center;
-          padding: 1rem 1rem;
-          line-height: 1rem;
-        }
-        &[name='appointmentTime'] {
-          height: 4rem;
-        }
-      }
-      textarea.form-control {
-        height: 10rem;
-      }
-      .error-feedback {
-        color: red;
-      }
-      button {
-        height: 3rem;
-        background-color: rgb(50, 122, 151);
-        border: 0;
-        color: #fff;
-        border-radius: 5px;
-      }
-    }
+  .registerBTN {
+    text-align: center;
+    display: block;
+    height: 3rem;
+    line-height: 3rem;
+    background-color: rgb(50, 122, 151);
+    border: 0;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
   }
 }
 @media (max-width: 768px) {

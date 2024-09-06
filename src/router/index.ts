@@ -29,7 +29,7 @@ const router = createRouter({
       component: () => import('../views/ReserveView.vue'),
       meta:{
         title:'Reserve',
-        // requireAuth:true
+        requireAuth:true
       }
     },
     {
@@ -62,6 +62,14 @@ const router = createRouter({
       component: () => import('../views/RegisterView.vue'),
       meta:{
         title:'Register'
+      }
+    },
+    {
+      path: '/appointment',
+      name: 'appointment',
+      component: () => import('../views/AppointmentView.vue'),
+      meta:{
+        title:'Appointment'
       }
     }
   ]
