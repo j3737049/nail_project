@@ -1,18 +1,21 @@
-# project_nail
+# project_nail 美甲預約網站
 
-This template should help get you started developing with Vue 3 in Vite.
+- DEMO預覽：https://nail-project.vercel.app/
+- 使用技術：[VueJs](https://cn.vuejs.org/)，[Pinia](https://pinia.vuejs.org/)，[Pinia Plugin Persistedstate](https://prazdevs.github.io/pinia-plugin-persistedstate/)，[swiper](https://swiperjs.com/)，[vee-validate](https://vee-validate.logaretm.com/v4/)
 
-## Recommended IDE Setup
+## 這個專案如何生成的
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- 使用Vue + TS開發
+- 樣式使用SCSS做開發，版面手動刻成
+- 使用 Pinia 與 Pinia Plugin Persistedstate做暫時資料儲存，重整頁面資料與登入狀態一樣保留
 
-## Type Support for `.vue` Imports in TS
+## 功能
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- 註冊與登入
+- 收藏喜歡的美甲款式
+- 預約美甲施做時段
+- 查看預約紀錄
+- 響應式網頁設計(RWD)
 
 ## Project Setup
 
@@ -32,8 +35,3 @@ npm run dev
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
