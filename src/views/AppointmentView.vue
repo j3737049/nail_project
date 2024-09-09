@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useAppointmentStore } from '../stores/appointment'
 import type { RowData } from '../types/Report';
 import { useI18n } from 'vue-i18n'
@@ -62,6 +62,20 @@ function sortBy(key: any) {
     sortAsc.value = true;
   }
 }
+
+const isCompact = ref(false);
+
+const checkScreenSize = () => {
+  isCompact.value = window.innerWidth <= 700
+}
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
 </script>
 
 <template>
@@ -133,6 +147,10 @@ h1 {
     }
     img {
       width: 100%;
+    }
+    .table-container{
+      overflow-x: auto;
+      max-width: 85%;
     }
   }
 }
