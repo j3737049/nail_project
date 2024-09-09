@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import Cookies from 'js-cookie'
 
-export const useCounterStore = defineStore(
+export const useMemberStore = defineStore(
   'member',
   () => {
 

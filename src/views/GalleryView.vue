@@ -45,6 +45,8 @@ import 'swiper/css/pagination';
 
 // import required modules
 import { EffectCoverflow, Pagination } from 'swiper/modules';
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 
 const modules = [EffectCoverflow, Pagination];
 

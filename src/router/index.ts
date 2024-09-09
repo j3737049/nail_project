@@ -69,7 +69,8 @@ const router = createRouter({
       name: 'appointment',
       component: () => import('../views/AppointmentView.vue'),
       meta:{
-        title:'Appointment'
+        title:'Appointment',
+        requireAuth:true
       }
     }
   ]

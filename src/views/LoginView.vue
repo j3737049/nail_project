@@ -51,13 +51,15 @@
 <script setup lang="ts">
 import { Form as ValidationForm, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup'
-import { useCounterStore } from '../stores/member'
+import { useMemberStore } from '../stores/member'
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 
 
 const router = useRouter();
 
-const counter = useCounterStore()
+const counter = useMemberStore()
 
 const schema = yup.object({
   account: yup.string().required('請輸入帳號'),

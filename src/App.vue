@@ -1,40 +1,28 @@
 <script setup lang="ts">
 import { ref, defineEmits, computed } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { useCounterStore } from './stores/member'
-// import HelloWorld from './components/HelloWorld.vue'
+import { useMemberStore } from './stores/member'
+import { useI18n } from 'vue-i18n'
+import { Button } from 'bootstrap'
 
+const { t, locale } = useI18n();
 const router = useRouter();
-const counter = useCounterStore();
-
-// let lists = ref([
-//   { value: 1, label: '會員登入', url: '/login' },
-//   { value: 2, label: '會員註冊', url: '/register' }
-// ])
-
-// if(counter.isLogin){
-//   lists = ref([
-//     { value: 1, label: '會員登出', url: '/logout' }
-//   ])
-// }
-// const isAuthenticated = computed(() => counter.isLogin);
+const counter = useMemberStore();
 
 const lists = computed(()=>{
   if(counter.isLogin){
     return [
-      // { value: 1, label: '預約紀錄', url: '/appointment' },
-      { value: 2, label: '會員登出', url: '/logout' }
+      { value: 1, label: t('button.appointment'), url: '/appointment' },
+      { value: 2, label: t('button.logout'), url: '/logout' }
     ]
   }else{
     return [
-      { value: 1, label: '會員登入', url: '/login' },
-      { value: 2, label: '會員註冊', url: '/register' }
+      { value: 1, label: t('button.login'), url: '/login' },
+      { value: 2, label: t('button.register'), url: '/register' }
     ]
   }
   
 })
-
-// const emit = defineEmits(['select'])
 
 const isOpen = ref(false)
 const selectedOption = ref(null)
@@ -67,21 +55,15 @@ const selectOption = (option: any) => {
     </RouterLink>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">首頁</RouterLink>
-        <RouterLink to="/reserve">預約</RouterLink>
-        <RouterLink to="/gallery">作品欣賞</RouterLink>
-        <RouterLink to="/about">關於我們</RouterLink>
+        <RouterLink to="/">{{ t('public.home') }}</RouterLink>
+        <RouterLink to="/reserve">{{ t('public.reserve') }}</RouterLink>
+        <RouterLink to="/gallery">{{ t('public.gallery') }}</RouterLink>
+        <RouterLink to="/about">{{ t('public.aboutUs') }}</RouterLink>
         <!-- <RouterLink to="/contact">客服中心</RouterLink> -->
       </nav>
     </div>
     <div class="memberarea">
       <div>
-        <!-- <RouterLink to="/" >
-          <svg class="member-svg qk-text--nav_menu_icon qk-vert--mid" xmlns="http://www.w3.org/2000/svg" height="24" width="25.8" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="6" r="5" stroke="currentColor" stroke-width="2"></circle>
-            <path d="M17.607 22.9957H6.393C5.54025 23.04 4.70467 22.7442 4.06888 22.1729C3.43309 21.6017 3.0488 20.8015 3 19.9471V19.1174C3 14.6077 7.032 11 12 11C16.968 11 21 14.6077 21 19.1174V19.9471C20.9512 20.8015 20.5669 21.6017 19.9311 22.1729C19.2953 22.7442 18.4598 23.04 17.607 22.9957V22.9957Z" stroke="currentColor" stroke-width="2" stroke-miterlimit="10"></path>
-          </svg>
-        </RouterLink> -->
         <div class="dropdown">
           <div v-if="isOpen" @click="toggleDropdown" class="dropdown-backgroud"></div>
           <button @click="toggleDropdown" class="dropdown-toggle">
@@ -104,9 +86,9 @@ const selectOption = (option: any) => {
 
   <footer>
     <div>
-      <p>客服時間 09:00am - 18:00pm (週一至週五)</p>
+      <p>{{ t('public.csTime') }} 09:00am - 18:00pm ({{ t('public.csDate') }})</p>
       <p>04-XXXX-XXXX</p>
-      <p>台中市西區XX路XX號</p>
+      <p>{{ t('public.csAdress') }}</p>
     </div>
   </footer>
 </template>

@@ -1,7 +1,9 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
+import { createI18n } from 'vue-i18n'
 import { createPinia } from 'pinia'
+import messages from './locals'
 
 import App from './App.vue'
 import router from './router'
@@ -38,9 +40,16 @@ router.beforeEach((to, from, next)=>{
         next();
     }
 })
+  
+const i18n = createI18n({
+    locale: 'zh', // 设置默认语言
+    fallbackLocale: 'en', // 设置备用语言
+    messages, // 设置语言包
+})
 
 const app = createApp(App)
 
+app.use(i18n)
 app.use(createPinia())
 app.use(router)
 app.use(ArcoVue)
