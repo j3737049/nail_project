@@ -5,23 +5,22 @@ import { useMemberStore } from './stores/member'
 import { useI18n } from 'vue-i18n'
 import { Button } from 'bootstrap'
 
-const { t, locale } = useI18n();
-const router = useRouter();
-const counter = useMemberStore();
+const { t, locale } = useI18n()
+const router = useRouter()
+const counter = useMemberStore()
 
-const lists = computed(()=>{
-  if(counter.isLogin){
+const lists = computed(() => {
+  if (counter.isLogin) {
     return [
       { value: 1, label: t('button.appointment'), url: '/appointment' },
       { value: 2, label: t('button.logout'), url: '/logout' }
     ]
-  }else{
+  } else {
     return [
       { value: 1, label: t('button.login'), url: '/login' },
       { value: 2, label: t('button.register'), url: '/register' }
     ]
   }
-  
 })
 
 const isOpen = ref(false)
@@ -35,23 +34,22 @@ const selectOption = (option: any) => {
   selectedOption.value = option.label
   isOpen.value = false
   // emit('select', option)
-  if(option.url != "/logout"){
-    router.push(option.url);
-  }else{
-    const result = counter.logout();
-    if(result){
-      alert('登出成功');
-      router.push('/');
+  if (option.url != '/logout') {
+    router.push(option.url)
+  } else {
+    const result = counter.logout()
+    if (result) {
+      alert('登出成功')
+      router.push('/')
     }
   }
-
 }
 </script>
 
 <template>
   <header>
-    <RouterLink to="/" >
-    <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="125" height="125" />
+    <RouterLink to="/">
+      <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="125" height="125" />
     </RouterLink>
     <div class="wrapper">
       <nav>
@@ -67,9 +65,21 @@ const selectOption = (option: any) => {
         <div class="dropdown">
           <div v-if="isOpen" @click="toggleDropdown" class="dropdown-backgroud"></div>
           <button @click="toggleDropdown" class="dropdown-toggle">
-            <svg class="member-svg qk-text--nav_menu_icon qk-vert--mid" xmlns="http://www.w3.org/2000/svg" height="24" width="25.8" viewBox="0 0 24 24" fill="none">
+            <svg
+              class="member-svg qk-text--nav_menu_icon qk-vert--mid"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              width="25.8"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
               <circle cx="12" cy="6" r="5" stroke="currentColor" stroke-width="2"></circle>
-              <path d="M17.607 22.9957H6.393C5.54025 23.04 4.70467 22.7442 4.06888 22.1729C3.43309 21.6017 3.0488 20.8015 3 19.9471V19.1174C3 14.6077 7.032 11 12 11C16.968 11 21 14.6077 21 19.1174V19.9471C20.9512 20.8015 20.5669 21.6017 19.9311 22.1729C19.2953 22.7442 18.4598 23.04 17.607 22.9957V22.9957Z" stroke="currentColor" stroke-width="2" stroke-miterlimit="10"></path>
+              <path
+                d="M17.607 22.9957H6.393C5.54025 23.04 4.70467 22.7442 4.06888 22.1729C3.43309 21.6017 3.0488 20.8015 3 19.9471V19.1174C3 14.6077 7.032 11 12 11C16.968 11 21 14.6077 21 19.1174V19.9471C20.9512 20.8015 20.5669 21.6017 19.9311 22.1729C19.2953 22.7442 18.4598 23.04 17.607 22.9957V22.9957Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-miterlimit="10"
+              ></path>
             </svg>
           </button>
           <ul v-if="isOpen" class="dropdown-list">
@@ -79,6 +89,26 @@ const selectOption = (option: any) => {
           </ul>
         </div>
       </div>
+    </div>
+    <div data-v-7a7a37b1="" class="github">
+      <a data-v-7a7a37b1="" href="https://github.com/j3737049/nail_project" target="_blank"
+        ><svg
+          data-v-7a7a37b1=""
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          aria-hidden="true"
+          role="img"
+          width="2em"
+          height="2em"
+          viewBox="0 0 24 24"
+          data-v-7c184dd8=""
+        >
+          <path
+            data-v-7a7a37b1=""
+            fill="currentColor"
+            d="M12 .297c-6.63 0-12 5.373-12 12c0 5.303 3.438 9.8 8.205 11.385c.6.113.82-.258.82-.577c0-.285-.01-1.04-.015-2.04c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729c1.205.084 1.838 1.236 1.838 1.236c1.07 1.835 2.809 1.305 3.495.998c.108-.776.417-1.305.76-1.605c-2.665-.3-5.466-1.332-5.466-5.93c0-1.31.465-2.38 1.235-3.22c-.135-.303-.54-1.523.105-3.176c0 0 1.005-.322 3.3 1.23c.96-.267 1.98-.399 3-.405c1.02.006 2.04.138 3 .405c2.28-1.552 3.285-1.23 3.285-1.23c.645 1.653.24 2.873.12 3.176c.765.84 1.23 1.91 1.23 3.22c0 4.61-2.805 5.625-5.475 5.92c.42.36.81 1.096.81 2.22c0 1.606-.015 2.896-.015 3.286c0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+          ></path></svg
+      ></a>
     </div>
   </header>
 
@@ -94,20 +124,19 @@ const selectOption = (option: any) => {
 </template>
 
 <style lang="scss">
-.icon{
+.icon {
   position: absolute;
   top: 2.5rem;
   right: 1rem;
   width: 1rem;
   height: 1rem;
 }
-.hide{
-  display: none!important;
+.hide {
+  display: none !important;
 }
-.margin-top4{
+.margin-top4 {
   margin-top: 4rem;
 }
-
 
 .main {
   form {
@@ -160,7 +189,7 @@ const selectOption = (option: any) => {
         height: 3rem;
       }
     }
-    .margin-top4{
+    .margin-top4 {
       margin-top: 1rem;
     }
   }
@@ -202,7 +231,7 @@ nav a {
   /* border-left: 1px solid var(--color-border); */
   text-decoration: none;
   color: var(--color-text);
-  &:hover{
+  &:hover {
     font-weight: bolder;
   }
   &:first-of-type {
@@ -218,17 +247,22 @@ nav a {
   }
 }
 
-
-.wrapper{
+.wrapper {
   width: 100%;
 }
 
 .memberarea {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+  // display: none;
+}
+.github {
     position: absolute;
-    right: 1rem;
-    top: 1rem;
-    cursor: pointer;
-    // display: none;
+    top: 0;
+    left: 0;
+    padding: 1rem;
 }
 
 footer {
@@ -240,7 +274,7 @@ footer {
 .dropdown {
   position: relative;
   width: 7rem;
-  
+
   .dropdown-backgroud {
     position: fixed;
     width: 100%;
@@ -282,11 +316,8 @@ footer {
   }
 }
 
-
-
-
-@media (max-width: 1024px){
-  .dropdown-toggle{
+@media (max-width: 1024px) {
+  .dropdown-toggle {
     text-align: right;
     padding: 1rem 0.5rem;
   }
